@@ -61,7 +61,7 @@ class SelectAccounts(SelectField):
         from bank.models import Account
 
         super(SelectAccounts, self).__init__(*args, **kwargs)
-        self.choices = [(account.id, u"%s №%s" % (account.user.name, account.id)) 
+        self.choices = [(account.id, u"%s № %s счет %s" % (account.user.name, account.user.id, account.id)) 
                         for account in Account.query.order_by("user").all()]
         self.choices.insert(0, (0, "---"))
         self.coerce = int
