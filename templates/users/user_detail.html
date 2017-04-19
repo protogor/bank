@@ -1,0 +1,45 @@
+{% extends "index.html" %} 
+{% block title %} {% endblock %} 
+{% block content %}
+	<h1>Счета клиента {{ user.name }} </h1> 
+	{% if accounts %}
+		<table class="table">
+		    <thead>
+		        <tr>
+		            <th>ID</th>
+		            <th>Кол-во транзакций</th>
+		            <th>Остаток</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		        {% for account in accounts %}
+			        <tr>
+			            <td scope="row">{{ account.id }}</td>
+			            <td>Транзакций {{ account.count_transactions }} шт.</a>
+			            </td>
+			            <td>{{ account.amount }} $</td>
+			        </tr>
+		        {% endfor %}
+		        <tr>
+		            <td scope="row"></td>
+		            <td scope="row"></td>
+		            <td><b>{{ user.amount }} $</b></td>
+		        </tr>
+		    </tbody>
+		</table>
+	{% else %}
+		<p>Счета отсутсвуют</p>
+	{% endif %}
+	<p>Создать счет</p>
+	<form class="form-inline" method="post">
+	    {{ form.csrf_token }}
+	    <div class="form-group">
+	        {{ form.amount(class="form-control", placeholder="Сумма") }}
+	        <br>
+	        {% for error in form.errors.amount %}
+	        	<span style="color: red;">{{ error }}</span> 
+	        {% endfor %}
+	    </div>
+	    <button type="submit" class="btn btn-success">Создать</button>
+	</form>
+{% endblock %}

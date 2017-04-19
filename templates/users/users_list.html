@@ -1,0 +1,60 @@
+{% extends "index.html" %} {% block title %} {% endblock %} {% block content %}
+<h1>Пользователи</h1>
+{% if users %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Имя</th>
+                <th>Адрес</th>
+                <th>Возраст</th>
+                <th>Сумма на счетах</th>
+                <th>Количество счетов</th>
+            </tr>
+        </thead>
+        <tbody>
+    		{% for user in users %}    	
+            <tr>
+                <th scope="row">{{ user.id }}</th>
+                <td><a href="{{ url_for('general.user_detail', user_id=user.id) }}">{{ user.name }}</a></td>
+                <td>{{ user.address }}</td>
+                <td>{{ user.age }}</td>
+                <td>{{ user.amount }} $</td>
+                <td>{{ user.count_accounts }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Пользователи отсутсвуют</p>
+{% endif %}
+<p>Создать пользователя</p>
+<form class="form-inline" method="post">
+    {{ form.csrf_token }}
+    <div class="form-group">
+        {{ form.name.label }}<br>
+        {{ form.name(class="form-control", placeholder="Имя") }}<br>
+        {% for error in form.errors.name %}
+            <span style="color: red;">{{error}}</span>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form.address.label }}<br>
+        {{ form.address(class="form-control", placeholder="Адрес") }}<br>
+        {% for error in form.errors.address %}
+            <span style="color: red;">{{error}}</span>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form.age.label }}<br>
+        {{ form.age(class="form-control", placeholder="Возраст") }}<br>
+        {% for error in form.errors.age %}
+            <span style="color: red;">{{error}}</span>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <br>
+        <button type="submit" class="btn btn-success">Создать</button>
+    </div>
+</form>
+{% endblock %}
