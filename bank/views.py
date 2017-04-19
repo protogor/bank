@@ -57,8 +57,10 @@ def transactions():
             if type == MONEY_SET:
                 account_to.amount += amount
             elif type == MONEY_GET:
+                amount = min(account_to.amount, amount) 
                 account_to.amount -= amount
             elif type == MONEY_BEETWEN:
+                amount = min(account_from.amount, amount) 
                 account_from.amount -= amount
                 account_to.amount += amount
             transaction = Transaction(account_to=account_to, 
