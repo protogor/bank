@@ -12,13 +12,6 @@ def not_found(error):
     return render_template('404.html'), 404
 
 
-@app.before_request
-def load_current_user():
-	pass
-    #g.user = User.query.filter_by(openid=session['openid']).first() \
-    #    if 'openid' in session else None
-
-
 @app.teardown_request
 def remove_db_session(exception):
     db_session.remove()
@@ -27,6 +20,12 @@ def remove_db_session(exception):
 @app.context_processor
 def date_context():
     return {'current_date_context': datetime.now()}
+
+
+@app.before_request
+def load_current_user():
+	pass
+	
 
 from bank.views import general
 
