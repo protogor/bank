@@ -49,10 +49,9 @@ def transactions():
             account_to_id = form.data["account_to"]
             account_to = Account.query.get(account_to_id)
             account_from_id = form.data["account_from"]
+            account_from = None
             if account_from_id:
-                account_from = Account.query.get(account_from_id)
-            else:
-                account_from = None
+                account_from = Account.query.get(account_from_id)        
             type = form.data["type"]
             amount = float(form.data["amount"])
             if type == MONEY_SET:
