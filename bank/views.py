@@ -1,6 +1,6 @@
 #-*-coding: utf-8-*-
 import datetime
-from flask import Blueprint, render_template, request, url_for, redirect, abort
+from flask import Blueprint, render_template, request, url_for, redirect, abort, jsonify
 from database import db_session
 from bank.forms import FormUser, FormAccount, FormTransaction, FormSearch
 from bank.models import User, Transaction, Account, MONEY_SET, MONEY_GET, MONEY_BEETWEN
@@ -89,3 +89,19 @@ def transactions():
     transactions = transactions.all()
     return render_template("transactions/transactions_list.html", 
                             transactions=transactions, form=form, form_search=form_search)
+
+
+@general.route('/users-json/')
+def users_json():
+    return jsonify([user.json for user in User.query.all()])
+
+
+@general.route('/accounts-json/')
+def accounts_json():
+    return jsonify([account.json for account in Account.query.all()])
+
+
+@general.route('/transactions-json/')
+def transactions_json():
+    return jsonify([transaction.json for transaction in Transaction.query.all()])
+

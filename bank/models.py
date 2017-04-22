@@ -46,7 +46,8 @@ class User(Model):
         count = self.accounts.with_entities(func.count(Account.id)).first()[0]
         return count if count else 0
 
-    def to_json(self):
+    @property
+    def json(self):
         return dict(
             id=self.id,
             name=self.name,
@@ -84,6 +85,16 @@ class Account(Model):
         count = len(self.transactions_list)
         return count
 
+    @property
+    def json(self):
+        return dict(
+            id=self.id,
+            amount=self.amount,
+            user=self.user.json,
+            active=self.active
+        )
+
+
 
 class Transaction(Model):
     __tablename__ = "transactions"
@@ -111,3 +122,14 @@ class Transaction(Model):
     @property 
     def type_name(self):
         return TYPE_TRANSACTION_DICT.get(self.type)
+
+    @property
+    def json(self):
+        return dict(
+            id=self.id,
+            account_to=self.account_to.json,
+            account_form=self.account_from.json if self.account_from else {},
+            amount=self.amount,
+            type=self.type,
+            date_create=self.date_create
+        )
